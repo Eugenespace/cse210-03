@@ -116,5 +116,7 @@ class Director:
 
         if playGame.lower() == "y":
             self.is_playing = True
+        elif playGame.lower() =="exit":
+            self.is_playing = False
         else:
             self.is_playing = False
