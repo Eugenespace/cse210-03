@@ -49,9 +49,9 @@ class Director:
 
         print(f"The card is: {self.lastCard}")
         while True:
-            self.card_guess = input("Higher or Lower? [h/l] ")
-            if self.card_guess.lower() not in ('h', 'l'):
-                print(f"Not an aprropriate input.")
+            self.card_guess = input("Higher or Lower? [h/l] or [exit] game: ")
+            if self.card_guess.lower() not in ('h', 'l', 'exit'): 
+                print(f"Not an apropriate input.")
             else:
                 break
         return self.card_guess
@@ -92,20 +92,25 @@ class Director:
 
         points = Points()
 
-        self.score = points.getScore()
-        userAnsw = self.card_guess
-        compAnsw = self.compareValues()
+        if self.card_guess.lower() == 'exit':  
+            self.is_playing = False
+            print(f"Bye.")
 
-        if (userAnsw == compAnsw):
-            self.score = points.correctScore
-        if (userAnsw != compAnsw):
-            self.score = points.incorrectScore
+        elif self.card_guess.lower() != 'exit': 
+            self.score = points.getScore()
+            userAnsw = self.card_guess
+            compAnsw = self.compareValues()
 
-        self.total_score += self.score
+            if (userAnsw == compAnsw):
+                self.score = points.correctScore
+            elif (userAnsw != compAnsw):
+                self.score = points.incorrectScore
 
-        print(f"Next card was: {self.newCard}")
-        print(f"Your score is: {self.total_score}\n")
-        self.is_playing == (self.score > 0)
+            self.total_score += self.score
+
+            print(f"Next card was: {self.newCard}")
+            print(f"Your score is: {self.total_score}\n")
+            self.is_playing == (self.score > 0)
 
     def keepPlaying(self):
         """Ask the player if they want to play again
@@ -115,7 +120,5 @@ class Director:
 
         if playGame.lower() == "y":
             self.is_playing = True
-        elif playGame.lower() =="exit":
-            self.is_playing = False
         else:
             self.is_playing = False
